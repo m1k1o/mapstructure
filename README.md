@@ -9,7 +9,7 @@ until you read a part of it. You can therefore read a `map[string]interface{}`
 and use this library to decode it into the proper underlying native Go
 structure.
 
-## Difference to the original
+## Difference to the original
 
 - Support for for squash: interface
 - Prettify nested error messages
