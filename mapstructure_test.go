@@ -2,6 +2,7 @@ package mapstructure
 
 import (
 	"encoding/json"
+	"errors"
 	"io"
 	"reflect"
 	"sort"
@@ -1243,6 +1244,51 @@ func TestDecode_DecodeHookType(t *testing.T) {
 
 	if result.Vint != 5 {
 		t.Errorf("vint should be 5: %#v", result.Vint)
+	}
+}
+
+func TestDecode_ValidateHook(t *testing.T) {
+	t.Parallel()
+
+	input1 := map[string]interface{}{
+		"Vint": 42,
+	}
+	input2 := map[string]interface{}{
+		"Vint": 43,
+	}
+
+	validateHook := func(val reflect.Value) error {
+		iface, ok := val.Interface().(Basic)
+		if !ok {
+			return nil
+		}
+
+		if iface.Vint != 42 {
+			return errors.New("vint should not be 42")
+		}
+
+		return nil
+	}
+
+	var result Basic
+	config := &DecoderConfig{
+		ValidateHook: validateHook,
+		Result:       &result,
+	}
+
+	decoder, err := NewDecoder(config)
+	if err != nil {
+		t.Fatalf("err: %s", err)
+	}
+
+	err = decoder.Decode(input1)
+	if err != nil {
+		t.Fatalf("got an err: %s", err)
+	}
+
+	err = decoder.Decode(input2)
+	if err == nil {
+		t.Fatal("expected an error")
 	}
 }
 

@@ -13,6 +13,7 @@ structure.
 
 - Support for for squash: interface
 - Prettify nested error messages
+- Added ValidateHook to validate the decoded value
 
 ## Installation
 
