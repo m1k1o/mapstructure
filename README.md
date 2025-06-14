@@ -14,6 +14,11 @@ until you read a part of it. You can therefore read a `map[string]interface{}`
 and use this library to decode it into the proper underlying native Go
 structure.
 
+## Difference to the go-viper/mapstructure
+
+- Use error structs instead of duplicated strings [#102](https://github.com/go-viper/mapstructure/pull/102)
+- Added ValidateHook to validate the decoded value [#103](https://github.com/go-viper/mapstructure/pull/103)
+
 ## Installation
 
 ```shell
